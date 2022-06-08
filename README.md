@@ -1,0 +1,58 @@
+# Wireguard Key Generator
+
+Browser-based, offline-capable, client-side, trustless
+
+## Available on IPFS
+
+https://gateway.pinata.cloud/ipfs/QmdU8zZ1HPrS7JZQ5AqCbGnCE2zLqtiGLpxPYL99XTipZk
+
+or
+
+https://ipfs.io/ipfs/QmdU8zZ1HPrS7JZQ5AqCbGnCE2zLqtiGLpxPYL99XTipZk
+
+## What is thid
+
+This is a single-file website that can generate a wireguard keypair. The user
+is given two files to download: a wireguard config with his provate key, to load
+into his VPN software, and a "fragment", which is a `[Peer]` section that he
+must send to the server administrator.
+
+AT NO POINT IS ANY EXTERNAL SERVER CONTACTED.
+
+Compared to other online key generators out there, this does not require you to
+trust me (the author) or the person running the webserver.
+
+- You don't have to trust me because the code is small and clear. You review and
+  audit it from the point where I imported Jason Donenfeld's code through all
+  the additions I made
+- You do not have to trust the webserver not to tamper with the site because it
+  is hosted on IPFS, which is content-addressed, so if the address/hash is the
+  same, the content is the same.
+
+Alternatively, you could host the site yourself.
+
+## Some more background
+
+When setting up a wireguard VPN server you have two choices:
+
+- Generate the user private keys yourself and send them to the users, in which
+  case the file must be send under a secure channel.
+- Users generate a keypair and send the server admin the public key, in which
+  case they need to have the technical know how.
+
+This website allows users to generate their own keys with no special knowledge.
+
+### Instructions
+
+The VPN admin fill in the form fields and clicks "save", which generates a URL
+with the saved parameters. Upon opening this URL the form will be pre-filled.
+
+The admin sends the URL to users, which generate the keys and send the "Server
+Fragments" back to the admin. An email address can optionally be specified,
+which will enable a "mailto" link to directly mail the fragment back to the
+admin.
+
+## License
+
+This code is licensed under the GNU GPLv2, since that was the license of the
+original JS code. I would like a more permissive license.
