@@ -194,10 +194,23 @@
 	};
 })();
 </script>
+	<style>
+		body{margin:40px
+		auto;max-width:650px;line-height:1.6;font-size:18px;color:#444;padding:0
+		10px}h1,h2,h3{line-height:1.2}
+		h2 {font-size:large;}
+		div {padding: 1ex; margin-top: 1ex;}
+		div.adm {background-color: rgb(255, 231, 231);}
+		div.usr {text-align: center;}
+		#gen {background-color: rgb(248, 206, 69);}
+		#results {display: none; background-color: rgb(91, 241, 136);}
+	</style>
 </head>
 
 <body>
 	<h1>Wireguard Key Generator (Trustless)</h1>
+	<div class="usr"><h2><em>Use this webpage on a private window!!!</em></h2></div>
+	<div class="adm">
 	<details>
 		<summary>Parameters</summary>
 		<form id="params" method="get">
@@ -209,33 +222,68 @@
 			<label for="ap">Allowed Prefix:</label><input type="number" id="ap" name="ap" min="0" max="32" value="24"><br>
 			<label for="ka">Keepalive:</label><input type="number" id="ka" name="ka" min="0" max="1000" value="25"><br>
 			<label for="cn">Client name (optional):</label><input type="text" id="cn" name="cn"><br>
+			<label for="ae">Admin email (optional):</label><input type="text" id="ae" name="ae"><br>
 			<input type="submit" value="Save">
 		</form>
 	</details>
-	<pre id="clientcfg"></pre>
-	<pre id="serverfragment"></pre>
+	</div>
+	<div id="gen" class="usr">
+		<p>Note: for maximum security, close all other browser tabs and all programs before
+			generating the configuration files</p>
+		<button id="genbtn">Generate</button>
+	</div>
+	<div id="results" class="usr">
+		<p>You must keep the <em>client configuration</em> for yourself and send the
+			<em>server fragment</em> to the VPN server administrator</p>
+		<a id="client-dl">Download Client Configuration</a><br>
+		<a id="server-dl">Download Server Fragment</a>
+		<a id="server-em" target="_blank">Email Server Fragment to Admin</a>
+		<p>Note: for maximum security, reboot your computer after you are done</p>
+	</div>
 	<script>
 		(new URL(window.location.href)).searchParams.forEach((x, y) =>
 			document.getElementById(y).value = x)
-		var kp = wireguard.generateKeypair();
-		var psk = wireguard.generatePresharedKey();
-		const fd = new FormData(document.getElementById('params'));
-		document.getElementById("clientcfg").innerHTML=
-			["[Interface]",
-			"PrivateKey = "+kp.privateKey,
-			"Address = "+fd.get("ca")+"/32",
-			"[Peer]",
-			"Endpoint = "+fd.get("sa")+":"+fd.get("sp"),
-			"PublicKey = "+fd.get("sk"),
-			"PresharedKey = "+psk,
-			"AllowedIPs = "+fd.get("aa")+"/"+fd.get("ap"),
-			(fd.ka > 0)? ("PersistentKeepalive = "+fd.get("ka")) : ""].join("\n");
-		document.getElementById("serverfragment").innerHTML=
-			["[Peer]",
-			(fd.get("cn")? "# "+fd.get("cn") : ""),
-			"PublicKey = "+kp.publicKey,
-			"PresharedKey = "+psk,
-			"AllowedIPs = "+fd.get("ca")+"/32"].join("\n");
+		function genCfg() {
+			let results = document.getElementById('results');
+			results.setAttribute("style", "");
+			let kp = wireguard.generateKeypair();
+			let psk = wireguard.generatePresharedKey();
+			let fd = new FormData(document.getElementById('params'));
+			let clientcfg = [
+				"[Interface]",
+				"PrivateKey = "+kp.privateKey,
+				"Address = "+fd.get("ca")+"/32",
+				"[Peer]",
+				"Endpoint = "+fd.get("sa")+":"+fd.get("sp"),
+				"PublicKey = "+fd.get("sk"),
+				"PresharedKey = "+psk,
+				"AllowedIPs = "+fd.get("aa")+"/"+fd.get("ap"),
+				(fd.get("ka") > 0)? ("PersistentKeepalive = "+fd.get("ka")) : ""].join("\n");
+			let client_dl = document.getElementById('client-dl');
+			client_dl.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(clientcfg));
+			client_dl.setAttribute("download", "wireguard.conf")
+			let serverfrag = [
+				"[Peer]",
+				(fd.get("cn")? "# "+fd.get("cn") : ""),
+				"PublicKey = "+kp.publicKey,
+				"PresharedKey = "+psk,
+				"AllowedIPs = "+fd.get("ca")+"/32"].join("\n");
+			let server_dl = document.getElementById('server-dl');
+			let encodedfrag = encodeURIComponent(serverfrag);
+			server_dl.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodedfrag);
+			server_dl.setAttribute("download", "wg-"+(fd.get("cn")? fd.get("cn") : "peer")+".conf")
+			let server_em = document.getElementById('server-em');
+			if (fd.get("ae")) {
+				let subject = "Wireguard pubkey" + (fd.get("cn")? " for "+fd.get("cn"):"");
+				server_em.setAttribute('href',
+					'mailto:' + fd.get("ae") + "?subject="+ encodeURIComponent(subject)+"&body="+encodedfrag);
+				server_em.setAttribute("style", "display: inherit");
+			} else {
+				server_em.setAttribute("style", "display: none");
+			}
+			results.setAttribute("style", "display: inherit");
+		}
+		document.getElementById('genbtn').onclick = genCfg;
 	</script>
 </body>
 
