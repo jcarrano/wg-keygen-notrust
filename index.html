@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang=en>
+
+<head>
+    <meta charset=utf-8>
+    <title>Wireguard Key Generator (Trustless)</title>
+    <script>
 /*! SPDX-License-Identifier: GPL-2.0
  *
  * Copyright (C) 2015-2020 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
@@ -182,3 +189,17 @@
 		}
 	};
 })();
+</script>
+</head>
+
+<body>
+    <p id="pubkey"></p>
+	<p id="privkey"></p>
+	<script>
+		var kp = wireguard.generateKeypair();
+		document.getElementById("pubkey").innerHTML=kp.publicKey;
+		document.getElementById("privkey").innerHTML=kp.privateKey;
+	</script>
+</body>
+
+</html>
