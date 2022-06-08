@@ -2,7 +2,9 @@
 
 Browser-based, offline-capable, client-side, trustless
 
-## Available on IPFS
+## Available
+
+### IPFS
 
 https://gateway.pinata.cloud/ipfs/QmdU8zZ1HPrS7JZQ5AqCbGnCE2zLqtiGLpxPYL99XTipZk
 
@@ -10,7 +12,11 @@ or
 
 https://ipfs.io/ipfs/QmdU8zZ1HPrS7JZQ5AqCbGnCE2zLqtiGLpxPYL99XTipZk
 
-## What is thid
+### GitHub
+
+https://htmlpreview.github.io/?https://github.com/jcarrano/wg-keygen-notrust/blob/6979e6b2e9d0c5eef62ace9277fe94fc97528dc2/index.html
+
+## What is this
 
 This is a single-file website that can generate a wireguard keypair. The user
 is given two files to download: a wireguard config with his provate key, to load
@@ -28,6 +34,8 @@ trust me (the author) or the person running the webserver.
 - You do not have to trust the webserver not to tamper with the site because it
   is hosted on IPFS, which is content-addressed, so if the address/hash is the
   same, the content is the same.
+  - Or you can access it via the Github HTML previewm which embeds the git
+    commit hash, so you know you are getting the right version.
 
 Alternatively, you could host the site yourself.
 
