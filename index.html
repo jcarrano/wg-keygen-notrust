@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang=en>
+
+<head>
+	<meta charset=utf-8>
+	<title>Wireguard Key Generator (Trustless)</title>
+	<meta name="author" content="Juan I Carrano">
+	<script src="wireguard.js"
+		integrity="sha256-KnkrBLei0lXuE9dGbMURxP000Jg7a9Tm8Gvvc6DysrU"
+		crossorigin="anonymous"></script>
+	<style>
+		body{margin:40px
+		auto;max-width:650px;line-height:1.6;font-size:18px;color:#444;padding:0
+		10px}h1,h2,h3{line-height:1.2}
+		h2 {font-size:large;}
+		div {padding: 1ex; margin-top: 1ex;}
+		div.adm {background-color: rgb(255, 231, 231);}
+		div.usr {text-align: center;}
+		#gen {background-color: rgb(248, 206, 69);}
+		#results {display: none; background-color: rgb(91, 241, 136);}
+	</style>
+</head>
+
+<body>
+	<h1>Wireguard Key Generator (Trustless)</h1>
+	<div class="usr"><h2><em>Use this webpage on a private window!!!</em></h2></div>
+	<div class="adm">
+	<details>
+		<summary>Parameters</summary>
+		<form id="params" method="get">
+			<label for="sa">Server Address:</label><input type="text" id="sa" name="sa" value="example.com">
+			<label for="sp">Port:</label><input type="number" id="sp" , name="sp" min="1" max="65635" value="51820"><br>
+			<label for="sk">Server Pubkey:</label><input type="text" id="sk" , name="sk" value="RANDOM-EXAMPLE"><br>
+			<label for="ca">Client Address:</label><input type="text" id="ca" name="ca" value="10.0.0.2"><br>
+			<label for="aa">Allowed Subnet:</label><input type="text" id="aa" name="aa" value="10.0.0.0"><br>
+			<label for="ap">Allowed Prefix:</label><input type="number" id="ap" name="ap" min="0" max="32" value="24"><br>
+			<label for="ka">Keepalive:</label><input type="number" id="ka" name="ka" min="0" max="1000" value="25"><br>
+			<label for="cn">Client name (optional):</label><input type="text" id="cn" name="cn"><br>
+			<label for="ae">Admin email (optional):</label><input type="text" id="ae" name="ae"><br>
+			<input type="submit" value="Save">
+		</form>
+	</details>
+	</div>
+	<div id="gen" class="usr">
+		<p>Note: for maximum security, close all other browser tabs and all programs before
+			generating the configuration files</p>
+		<button id="genbtn">Generate</button>
+	</div>
+	<div id="results" class="usr">
+		<p>You must keep the <em>client configuration</em> for yourself and send the
+			<em>server fragment</em> to the VPN server administrator</p>
+		<a id="client-dl">Download Client Configuration</a><br>
+		<a id="server-dl">Download Server Fragment</a>
+		<a id="server-em" target="_blank">Email Server Fragment to Admin</a>
+		<p>Note: for maximum security, reboot your computer after you are done</p>
+	</div>
+	<div>
+		<details>
+		<summary>Additional info</summary>
+		<p>The parameters are usually set by the server administrator and can be saved in URL's query string. Only the
+			client address and name need to be changed per client. The client name is optional and serves to uniquely
+			label the config fragments sent to the server.</p>
+		<p>Filling in "Admin Email" will enable a mailto link.</p>
+		<p>If this webpage is not used in private mode, the contents of the client config will be stored in the
+			browser's history as the download location of the file.</p>
+		<p>There are no guarantees that javascript crypto is safe from side-channel attacks and there is no secure
+			wipe function, that's why it is recommended to close all other tabs  before and reboot the machine after.</p>
+		<p>NO WARRANTY EXPRESSED OR IMPLIED!!!!</p>
+		</details>
+	</div>
+	<div class="usr">
+		<p>This tool &copy; 2022 Juan I Carrano; Keygen code &copy; 2015-2020 Jason A. Donenfeld.<br>
+		This project is not associated with WireGuard&reg;. "WireGuard" and the "WireGuard" logo are registered trademarks of Jason A. Donenfeld.<br>
+		<a href="https://github.com/jcarrano/wg-keygen-notrust">GitHub Repository</a>
+		</p>
+	</div>
+	<script src="ui.js"
+		integrity="sha256-XwvzfKzWUKuFO60OcErCQoX1YKuCoXD5/6oTbZkhq8g"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>
