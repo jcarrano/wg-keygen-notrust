@@ -172,6 +172,9 @@
 	}
 
 	window.wireguard = {
+		generatePresharedKey: function() {
+			return keyToBase64(generatePresharedKey());
+		},
 		generateKeypair: function() {
 			var privateKey = generatePrivateKey();
 			var publicKey = generatePublicKey(privateKey);
