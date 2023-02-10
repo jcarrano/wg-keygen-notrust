@@ -261,8 +261,11 @@
 		</p>
 	</div>
 	<script>
-		(new URL(window.location.href)).searchParams.forEach((x, y) =>
-			document.getElementById(y).value = x)
+		(new URL(window.location.href)).searchParams.forEach((x, y) => {
+			let el = document.getElementById(y);
+			if (el)
+				el.value = x;
+		});
 		function genCfg() {
 			let results = document.getElementById('results');
 			results.setAttribute("style", "");
