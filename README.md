@@ -6,19 +6,20 @@ Browser-based, offline-capable, client-side, trustless
 
 ### IPFS
 
-https://gateway.pinata.cloud/ipfs/QmdU8zZ1HPrS7JZQ5AqCbGnCE2zLqtiGLpxPYL99XTipZk
+https://gateway.pinata.cloud/ipfs/QmRWJC7djqs2DRe5G3TYnsGnJeYqU3T6FvQjH4PUevZRX6
 
 or
 
-https://ipfs.io/ipfs/QmdU8zZ1HPrS7JZQ5AqCbGnCE2zLqtiGLpxPYL99XTipZk
+https://ipfs.io/ipfs/QmRWJC7djqs2DRe5G3TYnsGnJeYqU3T6FvQjH4PUevZRX6
 
 ### GitHub
 
-https://htmlpreview.github.io/?https://github.com/jcarrano/wg-keygen-notrust/blob/6979e6b2e9d0c5eef62ace9277fe94fc97528dc2/index.html
+https://jcarrano.github.io/wg-keygen-notrust/
 
+Note that this link is not content-addressed, so here you should trust me.
 ## What is this
 
-This is a single-file website that can generate a Wireguard keypair. The user
+This is a website that can generate a Wireguard keypair. The user
 is given two files to download: a wireguard config with his private key (and additional parameters),
 to load into his VPN software, and a "fragment", which is a `[Peer]` section that he
 must send to the server administrator.
@@ -40,6 +41,12 @@ trust me (the author) or the person running the webserver.
 
 Alternatively, you could host the site yourself.
 
+## Single-file version
+
+A single-file version with embedded scripts is available under the "single-file"
+branch, however it does not work on IPFS gateways due the content-security
+policy.
+
 ## Some additional background
 
 When setting up a Wireguard VPN server you have two choices:
@@ -52,7 +59,7 @@ When setting up a Wireguard VPN server you have two choices:
   need to have the technical know how to use the command line tools and to
   build a configuration file.
 
-This website allows users to generate their own keys and configuration files with 
+This website allows users to generate their own keys and configuration files with
 no special knowledge required..
 
 ### Instructions
