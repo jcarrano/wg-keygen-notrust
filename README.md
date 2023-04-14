@@ -24,7 +24,7 @@ is given two files to download: a wireguard config with his private key (and add
 to load into his VPN software, and a "fragment", which is a `[Peer]` section that he
 must send to the server administrator.
 
-AT NO POINT IS ANY EXTERNAL SERVER CONTACTED. KEYS NEVER LEAVE THE USER'S COMPUTER UNTIL
+AT THIS POINT NO EXTERNAL SERVER IS CONTACTED. KEYS NEVER LEAVE THE USER'S COMPUTER UNTIL
 THEY EXPLICITLY SEND THE FRAGMENT TO THE SEVER ADMIN.
 
 Compared to other online key generators out there, this one does not require you to
@@ -38,6 +38,12 @@ trust me (the author) or the person running the webserver.
   so if the address/hash is the same, the content is the same.
 
 Alternatively, you could host the site yourself.
+
+## OPNsense bridge
+
+Additionally, there's an interface to OPNsense instances. These get contacted to get back a free IP address inside the given tunnel realm, get a wireguard server list and finally push the generated config to the OPNsense. AT THIS POINT, A SERVER IS CONTACTED, but only the one You gave inside the field "OPNsense URL". THERE IS NO OTHER SERVER CONTACTED BY THIS PROJECT.
+To make this work, You have to put the file `opnsensebridge.py` into your `cgi-bin` directory and make it executable. It must be accessible and executable from `/cgi-bin/opnsensebridge.py`.
+This funtions is in a beta state, errors might not get caught, things can happen...
 
 ## Single-file version
 
@@ -64,7 +70,7 @@ no special knowledge required..
 
 The VPN admin fills in the form fields and clicks "save", which generates a URL
 with the parameters saved inside the query string. Upon opening this URL the form will
-be pre-filled.
+be pre-filled. It's strongly advised not to save with filled out OPNsense credentials - they will appear openly in the resulting URL.
 
 The admin sends the URL to users, which generate the keys and send the "Server
 Fragment" back to the admin. An email address can optionally be specified,

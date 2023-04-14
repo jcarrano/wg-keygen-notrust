@@ -5,77 +5,169 @@
 	<meta charset=utf-8>
 	<title>Wireguard Key Generator (Trustless)</title>
 	<meta name="author" content="Juan I Carrano">
-	<script src="wireguard.js"
-		integrity="sha256-KnkrBLei0lXuE9dGbMURxP000Jg7a9Tm8Gvvc6DysrU"
+	<script src="wireguard.js" integrity="sha256-KnkrBLei0lXuE9dGbMURxP000Jg7a9Tm8Gvvc6DysrU="
 		crossorigin="anonymous"></script>
 	<style>
-		body{margin:40px
-		auto;max-width:650px;line-height:1.6;font-size:18px;color:#444;padding:0
-		10px}h1,h2,h3{line-height:1.2}
-		h2 {font-size:large;}
-		div {padding: 1ex; margin-top: 1ex;}
-		div.adm {background-color: rgb(255, 231, 231);}
-		div.usr {text-align: center;}
-		#gen {background-color: rgb(248, 206, 69);}
-		#results {display: none; background-color: rgb(91, 241, 136);}
+		body {
+			margin: 40px auto;
+			max-width: 650px;
+			line-height: 1.6;
+			font-size: 18px;
+			color: #444;
+			padding: 10px
+		}
+
+		h1,
+		h2,
+		h3 {
+			line-height: 1.2
+		}
+
+		h2 {
+			font-size: large;
+		}
+
+		div {
+			padding: 1ex;
+			margin-top: 1ex;
+		}
+
+		div.adm {
+			background-color: rgb(255, 231, 231);
+		}
+
+		div.usr {
+			text-align: center;
+		}
+
+		div.usr a {
+			text-decoration: none;
+		}
+
+		#gen {
+			background-color: rgb(248, 206, 69);
+		}
+
+		.disabled {
+			filter: saturate(0);
+			opacity: 0.5;
+		}
+
+		#results {
+			display: none;
+			background-color: rgb(91, 241, 136);
+		}
+
+		pre {
+			text-align: left;
+			font-size: small;
+			background-color: rgb(230, 230, 230);
+			display: inline-block;
+			padding: 5px
+		}
 	</style>
 </head>
 
 <body>
 	<h1>Wireguard Key Generator (Trustless)</h1>
-	<div class="usr"><h2><em>Use this webpage on a private window!!!</em></h2></div>
+	<div class="usr">
+		<h2><em>Use this webpage on a private window!!!</em></h2>
+	</div>
 	<div class="adm">
-	<details>
-		<summary>Parameters</summary>
-		<form id="params" method="get">
-			<label for="sa">Server Address:</label><input type="text" id="sa" name="sa" value="example.com">
-			<label for="sp">Port:</label><input type="number" id="sp" , name="sp" min="1" max="65635" value="51820"><br>
-			<label for="sk">Server Pubkey:</label><input type="text" id="sk" , name="sk" value="RANDOM-EXAMPLE"><br>
-			<label for="ca">Client Address:</label><input type="text" id="ca" name="ca" value="10.0.0.2"><br>
-			<label for="aa">Allowed Subnet:</label><input type="text" id="aa" name="aa" value="10.0.0.0"><br>
-			<label for="ap">Allowed Prefix:</label><input type="number" id="ap" name="ap" min="0" max="32" value="24"><br>
-			<label for="ka">Keepalive:</label><input type="number" id="ka" name="ka" min="0" max="1000" value="25"><br>
-			<label for="cn">Client name (optional):</label><input type="text" id="cn" name="cn"><br>
-			<label for="ae">Admin email (optional):</label><input type="text" id="ae" name="ae"><br>
-			<input type="submit" value="Save">
-		</form>
-	</details>
+		<details open>
+			<summary>Parameters</summary>
+			<form id="params" method="get">
+				<h2>Wireguard</h2>
+				<span id="relevant_for_clientconfig">
+					<label for="sa">Server Address</label>:<input type="text" id="sa" name="sa" value="example.com">
+					<label for="sp">Port</label>:<input type="number" id="sp" name="sp" min="1" max="65635"
+						value="51820"><br>
+					<label for="sk">Server Pubkey</label>:<input type="text" id="sk" id="sk" name="sk"
+						value="RANDOM-EXAMPLE"><br>
+					<label for="pk">Preshared Key</label>:<input type="text" id="pk" name="pk" value="">
+					<button type="button" id="pskbtn" onclick="genPsk()">Generate</button>
+					<label for="pka">Autogenerate</label>:<input type="checkbox" id="pka" name="pka"
+						onchange="pskbtn.disabled = this.checked;pk.readOnly = this.checked;"><br>
+					<label for="ca">Client Address</label>:<input type="text" id="ca" name="ca" value="10.0.0.2"><br>
+					<label for="dn">DNS</label>:<input type="text" id="dn" name="dn" value=""><br>
+					<label for="mt">MTU</label>:<input type="number" id="mt" name="mt" min="0" max="65635"
+						value="1400"><br>
+					<label for="aa">Allowed Subnets</label>:<input type="text" id="aa" name="aa" value="10.0.0.0"><br>
+					<label for="ka">Keepalive</label>:<input type="number" id="ka" name="ka" min="0" max="1000"
+						value="25"><br>
+					<label for="cn">Client name</label>:<input type="text" id="cn" name="cn">
+					<button type="button" id="gencnbtn" onclick="generateCN()">Generate</button>
+					<label for="cna">Autogenerate</label>:<input type="checkbox" id="cna" name="cna"
+						onchange="gencnbtn.disabled = this.checked;cn.readOnly = this.checked;"><br>
+				</span>
+				<input type="hidden" id="puk">
+				<h2>OPNsense interface (optional)</h2>
+				<label for="os">OPNsense URL</label>:<input type="text" id="os" name="os"
+					onfocus="this.removeAttribute('style')"><br>
+				<label for="osk">OPNsense API key</label>:<input type="text" id="osk" name="osk"
+					onfocus="this.removeAttribute('style')"><br>
+				<label for="oss">OPNsense API secret</label>:<input type="password" id="oss" name="oss"
+					onfocus="this.removeAttribute('style')"><br>
+				<label for="tr">Tunnel Realm</label>:<input type="text" id="tr" name="tr" value="10.0.0.2/24"
+					onfocus="this.removeAttribute('style')">
+				<button type="button" id="getipbtn" onclick="getIP()">Get unused IP from OPNsense</button><br>
+				<label for="owg">OPNsense WG-Server UUID</label>:<input type="text" id="owg" name="owg"><br>
+				or choose from <label for="owgl">list</label>:<select id="owgl" name="owgl">
+				</select><button type="button" id="getserversbtn" onclick="getservers()">Get Servers from
+					OPNsense</button><br>
+				<input type="submit" value="Save to URL">
+			</form>
+		</details>
 	</div>
 	<div id="gen" class="usr">
 		<p>Note: for maximum security, close all other browser tabs and all programs before
 			generating the configuration files</p>
-		<button id="genbtn">Generate</button>
+		<button id="genbtn" onclick="genCfg()">Generate</button>
 	</div>
 	<div id="results" class="usr">
 		<p>You must keep the <em>client configuration</em> for yourself and send the
-			<em>server fragment</em> to the VPN server administrator</p>
-		<a id="client-dl">Download Client Configuration</a><br>
-		<a id="server-dl">Download Server Fragment</a>
-		<a id="server-em" target="_blank">Email Server Fragment to Admin</a>
+			<em>server fragment</em> to the VPN server administrator
+		</p>
+		<h3>Client Configuration</h3>
+		<a id="client-dl" title="Download">&#128190;</a>
+		<a title="Copy to clipboard"
+			href="javascript:copycl(document.getElementById('client-sh').textContent);">&#128203;</a><br>
+		<pre id="client-sh"></pre>
+		<h3>Server Fragment</h3>
+		<a id="server-dl" title="Download">&#128190;</a>
+		<a title="Copy to clipboard"
+			href="javascript:copycl(document.getElementById('server-sh').textContent);">&#128203;</a>
+		<a id="server-em" title="Send by Email">&#128231;</a>
+		<a href="" id="server-ps" title="Push to OPNsense">&#128228;</a><br>
+		<pre id="server-sh"></pre>
 		<p>Note: for maximum security, reboot your computer after you are done</p>
 	</div>
+	<div id="err" class="usr"></div>
 	<div>
 		<details>
-		<summary>Additional info</summary>
-		<p>The parameters are usually set by the server administrator and can be saved in URL's query string. Only the
-			client address and name need to be changed per client. The client name is optional and serves to uniquely
-			label the config fragments sent to the server.</p>
-		<p>Filling in "Admin Email" will enable a mailto link.</p>
-		<p>If this webpage is not used in private mode, the contents of the client config will be stored in the
-			browser's history as the download location of the file.</p>
-		<p>There are no guarantees that javascript crypto is safe from side-channel attacks and there is no secure
-			wipe function, that's why it is recommended to close all other tabs  before and reboot the machine after.</p>
-		<p>NO WARRANTY EXPRESSED OR IMPLIED!!!!</p>
+			<summary>Additional info</summary>
+			<p>The parameters are usually set by the server administrator and can be saved in URL's query string. Only
+				the
+				client address and name need to be changed per client. The client name is optional and serves to
+				uniquely
+				label the config fragments sent to the server.</p>
+			<p>Filling in "Admin Email" will enable a mailto link.</p>
+			<p>If this webpage is not used in private mode, the contents of the client config will be stored in the
+				browser's history as the download location of the file.</p>
+			<p>There are no guarantees that javascript crypto is safe from side-channel attacks and there is no secure
+				wipe function, that's why it is recommended to close all other tabs before and reboot the machine after.
+			</p>
+			<p>NO WARRANTY EXPRESSED OR IMPLIED!!!!</p>
 		</details>
 	</div>
 	<div class="usr">
 		<p>This tool &copy; 2022 Juan I Carrano; Keygen code &copy; 2015-2020 Jason A. Donenfeld.<br>
-		This project is not associated with WireGuard&reg;. "WireGuard" and the "WireGuard" logo are registered trademarks of Jason A. Donenfeld.<br>
-		<a href="https://github.com/jcarrano/wg-keygen-notrust">GitHub Repository</a>
+			This project is not associated with WireGuard&reg;. "WireGuard" and the "WireGuard" logo are registered
+			trademarks of Jason A. Donenfeld.<br>
+			<a href="https://github.com/jcarrano/wg-keygen-notrust">GitHub Repository</a>
 		</p>
 	</div>
-	<script src="ui.js"
-		integrity="sha256-XwvzfKzWUKuFO60OcErCQoX1YKuCoXD5/6oTbZkhq8g"
+	<script src="ui.js" integrity="sha256-Ky4iMCCwMwdba6qaD0vCng6NjSzYIqbksP732XI5gQU="
 		crossorigin="anonymous"></script>
 </body>
 
