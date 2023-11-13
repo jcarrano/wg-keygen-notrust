@@ -42,8 +42,8 @@ Alternatively, you could host the site yourself.
 ## OPNsense bridge
 
 Additionally, there's an interface to OPNsense instances. These get contacted to get back a free IP address inside the given tunnel realm, get a wireguard server list and finally push the generated config to the OPNsense. AT THIS POINT, A SERVER IS CONTACTED, but only the one You gave inside the field "OPNsense URL". THERE IS NO OTHER SERVER CONTACTED BY THIS PROJECT.
-To make this work, You have to put the file `opnsensebridge.py` into your `cgi-bin` directory and make it executable. It must be accessible and executable from `/cgi-bin/opnsensebridge.py`.
-This funtions is in a beta state, errors might not get caught, things can happen...
+To make this work, You have to put or link the file `opnsensebridge.py` into your `cgi-bin` directory (i.e. `/usr/lib/cgi-bin`) and make it executable. It must be accessible and executable from `/cgi-bin/opnsensebridge.py`. Also You might need the apache cgi module which You can enable with `a2enmod cgid`.
+This funtion is in a beta state, errors might not get caught, things can happen...
 
 ## Single-file version
 
