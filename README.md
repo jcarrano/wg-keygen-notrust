@@ -6,17 +6,15 @@ Browser-based, offline-capable, client-side, trustless
 
 ### IPFS
 
-https://gateway.pinata.cloud/ipfs/QmdGs4rfkTS3D4614sjUysx9XxJkp57v5sm59w259eX7ov
+TODO
 
-or
+### Web
 
-https://ipfs.io/ipfs/QmdGs4rfkTS3D4614sjUysx9XxJkp57v5sm59w259eX7ov
-
-### GitHub
-
-https://jcarrano.github.io/wg-keygen-notrust/
+- https://jcarrano.github.io/wg-keygen-notrust/
+- https://wg-keygen.carrano.com.ar
 
 Note that this link is not content-addressed, so here you should trust me.
+
 ## What is this
 
 This is a website that can generate a Wireguard keypair. The user
