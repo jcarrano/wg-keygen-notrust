@@ -6,7 +6,17 @@ Browser-based, offline-capable, client-side, trustless
 
 ### IPFS
 
-TODO
+These are content-addressed, so you can trust the content does not change. There
+are two hashes, one with files stored as UnixFS, and another with files stored
+as raw data:
+
+- [QmTVzzkm2WY6q7nKaLw6MZkP3Pda8wuHuSvbkyBRB4KA8w](https://explore.ipld.io/#/explore/QmTVzzkm2WY6q7nKaLw6MZkP3Pda8wuHuSvbkyBRB4KA8w) (UnixFS)
+- [bafybeig3izids7rw7c7mpz2uicqvz646ad766xw5mheymwjytkocpqqm2y](https://explore.ipld.io/#/explore/bafybeig3izids7rw7c7mpz2uicqvz646ad766xw5mheymwjytkocpqqm2y) (Raw)
+
+Gateway links:
+
+- https://cloudflare-ipfs.com/ipfs/QmTVzzkm2WY6q7nKaLw6MZkP3Pda8wuHuSvbkyBRB4KA8w/
+- https://cloudflare-ipfs.com/ipfs/bafybeig3izids7rw7c7mpz2uicqvz646ad766xw5mheymwjytkocpqqm2y/
 
 ### Web
 
