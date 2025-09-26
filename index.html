@@ -7,6 +7,11 @@
 	<meta name="author" content="Juan I Carrano">
 	<script src="wireguard.js" integrity="sha256-KnkrBLei0lXuE9dGbMURxP000Jg7a9Tm8Gvvc6DysrU="
 		crossorigin="anonymous"></script>
+	<script src="wireguard.js"></script>
+	<script type="text/javascript" src="jquery.min.js" integrity="sha384-XjEETw4tssUw55ox7LlBMNjrGfPkEJ+nwUh8ucgoLks4+Xbd87UqG2+ehmAMZc6G"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript" src="qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU"
+		crossorigin="anonymous"></script>
 	<style>
 		body {
 			margin: 40px auto;
@@ -133,6 +138,7 @@
 		<a title="Copy to clipboard"
 			href="javascript:copycl(document.getElementById('client-sh').textContent);">&#128203;</a><br>
 		<pre id="client-sh"></pre>
+		<div id="qrcode" style="background-color: white; width:250px; height:250px; display: block; margin-left: auto; margin-right: auto;"></div>
 		<h3>Server Fragment</h3>
 		<a id="server-dl" title="Download">&#128190;</a>
 		<a title="Copy to clipboard"
@@ -167,7 +173,7 @@
 			<a href="https://github.com/jcarrano/wg-keygen-notrust">GitHub Repository</a>
 		</p>
 	</div>
-	<script src="ui.js" integrity="sha256-Ky4iMCCwMwdba6qaD0vCng6NjSzYIqbksP732XI5gQU="
+	<script src="ui.js" integrity="sha384-QzIwycpwZ49jColvRm2Gcfi5hPQZZ7sxWzCzw+72Ombc6IX06gUMab0mVqck2iE4"
 		crossorigin="anonymous"></script>
 </body>
 

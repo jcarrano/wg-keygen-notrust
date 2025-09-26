@@ -41,6 +41,14 @@ function genCfg() {
     client_dl.setAttribute("download", "wireguard.conf")
     let client_sh = document.getElementById('client-sh');
     client_sh.textContent = clientcfg;
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 250,
+	height : 250,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.L
+        });
+    qrcode.makeCode(clientcfg);
 
     let serverfrag = [
         "[Peer]",
